@@ -107,3 +107,12 @@ def profile(request,id):
         profile = UserProfile.objects.get(user=user)
         redirect_url = '/profile/' + str(user.id)
         return HttpResponseRedirect(redirect_url)
+
+
+@login_required
+def watchlist(request):
+    return render(request, './show/watchlist.html')
+
+@login_required
+def dashboard(request):
+    return render(request, './show/dashboard.html')
