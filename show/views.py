@@ -7,7 +7,12 @@ from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-# Create your views here.
+from .models import *
+from recombee_api_client.api_client import RecombeeClient
+from recombee_api_client.exceptions import APIException
+from recombee_api_client.api_requests import *
+
+client = RecombeeClient('tvseries', 'Xfp4Upkxyb4DpUC99e2wjU3REiOwcbibJnCYqFq97Pt8uAZhwi2aVD1SPzzgEofM')
 
 def homepage(request):
     return render(request, './show/index.html')
@@ -15,7 +20,7 @@ def homepage(request):
 
 def login(request):
     if request.user.is_authenticated:
-        redirect_url = '/profile/'
+        redirect_url = '/profile/' + str(request.user.id)
         return HttpResponseRedirect(redirect_url)
     else:
         if request.method == 'POST':
@@ -24,7 +29,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
-                    redirect_url = '/profile/'
+                    redirect_url = '/profile/' + str(user.id)
                     auth_login(request, user)
                     return HttpResponseRedirect(redirect_url)
                 else:
@@ -44,7 +49,7 @@ def logout(request):
 
 def register(request):
     if request.user.is_authenticated:
-        redirect_url = '/profile/'
+        redirect_url = '/profile/' + str(request.user.id)
         return HttpResponseRedirect(redirect_url)
     else:
         if request.method == 'POST':
@@ -62,7 +67,9 @@ def register(request):
                 user = User.objects.create_user(username=username, email=email,first_name=first_name,last_name=last_name)
                 user.set_password(password)
                 user.save()
-                redirect_url = '/profile/'
+                profile = UserProfile.objects.create(user=user)
+                profile.save()
+                redirect_url = '/profile/' + str(user.id)
                 auth_login(request, user)
                 return HttpResponseRedirect(redirect_url)
         else:
@@ -70,5 +77,33 @@ def register(request):
 
 
 @login_required
-def profile(request):
-    return render(request, './show/profile.html')
+def profile(request,id):
+    id = int(id)
+    if id == request.user.id:
+        if request.method == 'POST':
+            username = request.POST.get('username', '')
+            email = request.POST.get('email', '')
+            first_name = request.POST.get('fname', '')
+            last_name = request.POST.get('lname', '')
+            gender = request.POST.get('gender', '')
+            interests = request.POST.get('interests', '')
+            user = User.objects.get(id=id)
+            profile = UserProfile.objects.get(user=user)
+            user.username = username
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            profile.gender = gender
+            profile.interests = interests
+            profile.save()
+            return render(request, './show/profile.html',{'profile':profile,'user':user})
+        else:
+            user = User.objects.get(id=id)
+            profile = UserProfile.objects.get(user=user)
+            return render(request, './show/profile.html',{'profile':profile,'user':user})
+    else:
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        redirect_url = '/profile/' + str(user.id)
+        return HttpResponseRedirect(redirect_url)
