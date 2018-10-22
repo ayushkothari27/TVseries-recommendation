@@ -175,13 +175,13 @@
     <!-- Main content -->
     <div class="main-content">
         <!-- Top navbar -->
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+        <!-- <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
                 <!-- Brand -->
                 <!-- <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="../index.html"><i class="fa fa-window-close-o "
                         aria-hidden="true"></i> &nbsp; get to know you page</a> -->
                 <!-- Form -->
-                <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+                <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
                     <div class="form-group mb-0">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
@@ -190,17 +190,17 @@
                             <input class="form-control" placeholder="Search" type="text">
                         </div>
                     </div>
-                </form>
+                </form> -->
                 <!-- User -->
-                <ul class="navbar-nav align-items-center d-none d-md-flex">
+                <!-- <ul class="navbar-nav align-items-center d-none d-md-flex">
                     <li class="nav-item dropdown">
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <div class="media align-items-center">
+                            <div class="media align-items-center"> -->
                                 <!-- <span class="avatar avatar-sm rounded-circle">
                   <img alt="Image" src="../assets/img/theme/team-4-800x800.jpg">
-                </span> -->
-                                <div class="media-body ml-2 d-none d-lg-block">
+                <!-- </span> -->
+                                <!-- <div class="media-body ml-2 d-none d-lg-block">
                                     <span class="mb-0 text-sm  font-weight-bold">Jessica Jones</span>
                                 </div>
                             </div>
@@ -234,40 +234,9 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+        </nav>  -->
         <!-- Modal -->
-        <div class="modal fade" id="rate" role="dialog">
-            <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Rate the tv series on a scale of 10</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="{% url 'show:dashboard' %}" role="form">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <label class="control-label col-sm-2" for="rate">Rating: </label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="rate" placeholder="Enter you rating here..."
-                                            name="rating">
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-info " style="margin-left: 150px;" data-dismiss="modal">Add</button>
-                        </form>
-                        <hr />
-                    </div>
-                </div>
-
-            </div>
-        </div>
         <!-- Header -->
         <div class="header bg-gradient-primary pt-md-7">
             <div class="container-fluid"></div>
@@ -277,36 +246,72 @@
             <!-- Table -->
 
             <div style="padding: 60px;"></div>
-            <h4><i class="fa fa-chevron-right " aria-hidden="true"></i> &nbsp; Select the TV Series you like and we
-                will recommend many more according to your taste.</h4>
+            <h4><i class="fa fa-chevron-right " aria-hidden="true"></i> &nbsp;Rate and get recommended</h4>
             <hr class="my-3">
             <div class="row ">
-                {% for tvseries in recommend %}
-
-                <div class="col-md-4">
-                    <div class="card" style="">
-                        <img class="card-img-top" src="{% static "/images/friends.jpg" %}" alt="">
-                        <div class="card-body" style="margin-bottom: -20px;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h2 class="card-title"><strong>{{tvseries.name}}</strong> </h2>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="btn-group">
-                                        <a href="{% url 'show:add_rate' tvseries.id %}" class="btn btn-sm btn-info" data-toggle="modal" data-target="#rate"><i
-                                                class="fa fa-star" aria-hidden="true" style="color: #F0E68C;"></i> Rate</a>
-                                        <a href="{% url 'show:watch_list_add' tvseries.id %}" class="btn btn-sm btn-info"><i class="fa fa-heart" aria-hidden="true"
-                                                style="color: #e31b23;"></i> Add</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p> -->
+                    <div style="padding: 100px;"></div>
+              <div class="container mt--8 pb-5">
+                <div class="row justify-content-center">
+                  <div class="col-lg-5 col-md-7">
+                    <div class="card bg-secondary shadow border-0">
+                      <!-- <div class="card-header bg-transparent pb-5">
+                        <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
+                        <div class="btn-wrapper text-center">
+                          <!-- <a href="#" class="btn btn-neutral btn-icon">
+                            <span class="btn-inner--icon"><img src="{% static "/assets/img/icons/common/github.svg" %}"></span>
+                            <span class="btn-inner--text">Github</span>
+                          </a> -->
+                          <!-- <a href="#" class="btn btn-neutral btn-icon">
+                            <span class="btn-inner--icon"><img src="{% static "/assets/img/icons/common/google.svg" %}"></span>
+                            <span class="btn-inner--text">Google</span>
+                          </a>
                         </div>
+                      </div> -->
+                      <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                          <small>Rate {{series.name}}</small>
+                        </div>
+                        <form method="POST" action="{% url 'show:add_rate' series.id %}" role="form">
+                          {% csrf_token %}
+                          <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                              </div>
+                              <input class="form-control" placeholder="Rate between 1 - 10" type="number" name="rating">
+                            </div>
+                          </div>
+                          <!-- <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                              </div>
+                              <input class="form-control" placeholder="Password" type="password" name="password">
+                            </div>
+                          </div> -->
+                          <!-- <div class="custom-control custom-control-alternative custom-checkbox">
+                            <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                            <label class="custom-control-label" for=" customCheckLogin">
+                              <span class="text-muted">Remember me</span>
+                            </label>
+                          </div> -->
+                          <div class="text-center">
+                            <button type="submit" class="btn btn-primary my-4">Rate</button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
+                    <!-- <div class="row mt-3">
+                      <div class="col-6">
+                        <a href="#" class="text-light"><small>Forgot password?</small></a>
+                      </div>
+                      <div class="col-6 text-right">
+                        <a href="#" class="text-light"><small>Create new account</small></a>
+                      </div>
+                    </div> -->
+                  </div>
                 </div>
-                {% endfor %}
-
+              </div>
             </div>
             <!-- Footer -->
             <!-- <footer class="footer">

@@ -5,7 +5,7 @@ from recombee_api_client.api_client import RecombeeClient
 from recombee_api_client.exceptions import APIException
 from recombee_api_client.api_requests import *
 
-client = RecombeeClient('tvseries', 'hw3cPcSNe1QHai4F3VFDcjDZh0GLWr4uMSxEOO60Ns6I314N8Fch4y4abXfvPFs7')
+client = RecombeeClient('tvseries', 'IG1t5vSWYgpJvClpbJZUn29oqnCu6QnIHoJdm9u5dRLom47i0WrpWrNKcZ9om21x')
 
 requests = []
 list_of_ratings = SeriesRating.objects.all()

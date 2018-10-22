@@ -16,7 +16,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 
-client = RecombeeClient('recommender', 'EgYpORAGzrbtQNKbZGA5wGOMm5V4jpQpJ1vMId4OsrO4GdEl5i3szO54mBKtcNYX')
+client = RecombeeClient('tvseries', 'IG1t5vSWYgpJvClpbJZUn29oqnCu6QnIHoJdm9u5dRLom47i0WrpWrNKcZ9om21x')
 
 def homepage(request):
     return render(request, './show/index.html')
@@ -139,7 +139,7 @@ class WatchlistDeleteView(DeleteView):
         print(self.object)
         self.object.delete()
         return HttpResponseRedirect(success_url)
-    
+
 @login_required
 def WatchlistCompView(request,id):
     user = request.user
@@ -154,14 +154,50 @@ def WatchlistCompView(request,id):
 def dashboard(request):
     if request.method == 'POST':
         print('okay')
-    recommend = client.send(RecommendItemsToUser(request.user, 10))
-    print(request.user)
-    return render(request, './show/dashboard.html', {'recommend': recommend})
+    recommend = client.send(RecommendItemsToUser(request.user.id, 9))
+    recommend = recommend["recomms"]
+    print(recommend)
+    list1 = []
+    for i in range(0,len(recommend)):
+        print(int(recommend[i]['id']))
+        print(recommend[i])
+        list1.append(TVseries.objects.get(id=int(recommend[i]['id'])))
+    return render(request, './show/dashboard.html', {'recommend': list1})
+
 
 @login_required
 def addRating(request):
-    tvseries = TVseries.objects.all()
+    tvseries = TVseries.objects.all()[0:30]
     print(tvseries)
     return render(request, './show/addRating.html', {'tvseries': tvseries})
 
 
+@login_required
+def watch_list_add(request,id):
+    tvseries = TVseries.objects.get(id=id)
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    watchlist = Watchlist.objects.create(user=profile,series=tvseries,percent=0)
+    success_url = '/dashboard/'
+    return HttpResponseRedirect(success_url)
+
+
+@login_required
+def add_rate(request,id):
+    if request.method=="GET":
+        series = TVseries.objects.get(id=id)
+        return render(request, './show/addrate.html', {'series':series})
+    else:
+        rating = request.POST.get('rating', '')
+        tvseries = TVseries.objects.get(id=id)
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        series_rating = SeriesRating.objects.create(user=profile,series=tvseries,rating=rating)
+        name = user.id
+        series = tvseries.id
+        rate = int(rating)
+        rate = (rate-10)/10
+        request = AddRating(name, series, rate ,cascade_create=True)
+        client.send(request)
+        success_url = '/dashboard/'
+        return HttpResponseRedirect(success_url)

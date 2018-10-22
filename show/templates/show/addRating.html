@@ -9,12 +9,12 @@
     <meta name="author" content="Creative Tim">
     <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
     <!-- Favicon -->
-    <link href="{% static " ./assets/img/brand/favicon.png" %}" rel="icon" type="image/png">
+    <link href="{% static "./assets/img/brand/favicon.png" %}" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
-    <link href="{% static " ./assets/vendor/nucleo/css/nucleo.css" %}" rel="stylesheet">
-    <link href="{% static " ./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" %}" rel="stylesheet">
+    <link href="{% static "./assets/vendor/nucleo/css/nucleo.css" %}" rel="stylesheet">
+    <link href="{% static "./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" %}" rel="stylesheet">
     <!-- Argon CSS -->
     <link type="text/css" href="{% static "/assets/css/argon.css" %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -178,8 +178,8 @@
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
                 <!-- Brand -->
-                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="../index.html"><i class="fa fa-window-close-o "
-                        aria-hidden="true"></i> &nbsp; get to know you page</a>
+                <!-- <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="../index.html"><i class="fa fa-window-close-o "
+                        aria-hidden="true"></i> &nbsp; get to know you page</a> -->
                 <!-- Form -->
                 <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
                     <div class="form-group mb-0">
@@ -236,38 +236,7 @@
             </div>
         </nav>
         <!-- Modal -->
-        <div class="modal fade" id="rate" role="dialog">
-            <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Rate the tv series on a scale of 10</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="{% url 'show:dashboard' %}" role="form">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <label class="control-label col-sm-2" for="rate">Rating: </label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="rate" placeholder="Enter you rating here..."
-                                            name="rating">
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-info " style="margin-left: 150px;" data-dismiss="modal">Add</button>
-                        </form>
-                        <hr />
-                    </div>
-                </div>
-
-            </div>
-        </div>
         <!-- Header -->
         <div class="header bg-gradient-primary pt-md-7">
             <div class="container-fluid"></div>
@@ -288,14 +257,16 @@
                         <div class="card-body" style="margin-bottom: -20px;">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h2 class="card-title"><strong>Friends</strong> </h2>
+                                    <h2 class="card-title"><strong>{{series.name}}</strong> </h2>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="btn-group">
-                                        <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#rate"><i
+                                      <a href="{% url 'show:watch_list_add' series.id %}" class="btn btn-sm btn-info"><i class="fa fa-heart" aria-hidden="true"
+                                              style="color: #e31b23;"></i> Add</a>
+                                        <a href="{% url 'show:add_rate' series.id %}" class="btn btn-sm btn-info" ><i
                                                 class="fa fa-star" aria-hidden="true" style="color: #F0E68C;"></i> Rate</a>
-                                        <a href="#" class="btn btn-sm btn-info"><i class="fa fa-heart" aria-hidden="true"
-                                                style="color: #e31b23;"></i> Add</a>
+
+
                                     </div>
                                 </div>
                             </div>
