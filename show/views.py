@@ -127,10 +127,34 @@ def watchlist(request,id):
         redirect_url = '/watchlist/' + str(user.id)
         return HttpResponseRedirect(redirect_url)
 
+class WatchlistDeleteView(DeleteView):
+    login_url = '/login/'
+    model = Watchlist
+    success_url = '/watchlist/'
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        success_url = success_url + str(self.request.user.id)
+        print(self.object)
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+    
+@login_required
+def WatchlistCompView(request,id):
+    user = request.user
+    obj = Watchlist.objects.get(id=id)
+    obj.status = "Completed"
+    obj.percent = 100
+    obj.save()
+    success_url = '/watchlist/' + str(request.user.id)
+    return HttpResponseRedirect(success_url)
 
 @login_required
 def dashboard(request):
+    if request.method == 'POST':
+        print('okay')
     recommend = client.send(RecommendItemsToUser(request.user, 10))
     print(request.user)
     return render(request, './show/dashboard.html', {'recommend': recommend})
+
