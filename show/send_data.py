@@ -25,3 +25,9 @@ try:
 	client.send(Batch(requests))
 except APIException as e:
 	print(e)
+except ResponseException as e:
+    print(e)
+except ApiTimeoutException as e:
+    print(e)
+except Exception as e:
+    print(e)

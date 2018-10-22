@@ -11,6 +11,10 @@ from .models import *
 from recombee_api_client.api_client import RecombeeClient
 from recombee_api_client.exceptions import APIException
 from recombee_api_client.api_requests import *
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView
 
 client = RecombeeClient('recommender', 'EgYpORAGzrbtQNKbZGA5wGOMm5V4jpQpJ1vMId4OsrO4GdEl5i3szO54mBKtcNYX')
 
@@ -110,8 +114,20 @@ def profile(request,id):
 
 
 @login_required
-def watchlist(request):
-    return render(request, './show/watchlist.html')
+def watchlist(request,id):
+    id = int(id)
+    if id == request.user.id:
+        user = User.objects.get(id=id)
+        profile = UserProfile.objects.get(user=user)
+        watch_list = Watchlist.objects.filter(user=profile)
+        return render(request, './show/watchlist.html',{'watch_list':watch_list,'id':id})
+    else:
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        redirect_url = '/watchlist/' + str(user.id)
+        return HttpResponseRedirect(redirect_url)
+
+
 
 @login_required
 def dashboard(request):

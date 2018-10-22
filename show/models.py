@@ -12,6 +12,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
+
 class TVseries(models.Model):
     name = models.CharField(max_length = 100, default=None)
 
@@ -19,9 +20,15 @@ class TVseries(models.Model):
         return self.name
 
 
-
 class SeriesRating(models.Model):
-	series = models.ForeignKey(TVseries, on_delete=models.CASCADE, related_name='series')
-	user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userprofile')
-	rating = models.PositiveIntegerField(validators=[MaxValueValidator(10)], null=True, blank=True)
-    
+    series = models.ForeignKey(TVseries, on_delete=models.CASCADE, related_name='series')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userprofile')
+    rating = models.PositiveIntegerField(validators=[MaxValueValidator(10)], null=True, blank=True)
+    def __str__(self):
+        return str(self.series)
+
+class Watchlist(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='watchlist_user')
+    series = models.ForeignKey(TVseries, on_delete=models.CASCADE, related_name='watchlist_series')
+    status = models.CharField(max_length=50, blank=True, null=True, default="pending")
+    percent = models.PositiveIntegerField(validators=[MaxValueValidator(100)], null=True, blank=True)

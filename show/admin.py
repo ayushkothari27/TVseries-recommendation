@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(UserProfile)
 admin.site.register(TVseries)
 admin.site.register(SeriesRating)
+admin.site.register(Watchlist)

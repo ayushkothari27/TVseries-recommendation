@@ -185,9 +185,11 @@
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
+                {% if profile.photo %}
                 <span class="avatar avatar-sm rounded-circle">
                   <img  src="{{profile.photo.url}}">
                 </span>
+                {% endif %}
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold">{{user.first_name}} {{user.last_name}}</span>
                 </div>
@@ -245,9 +247,11 @@
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
+                  {% if profile.photo %}
                   <a href="#">
                     <img src="{{profile.photo.url}}" class="rounded-circle">
                   </a>
+                  {% endif %}
                 </div>
               </div>
             </div>
