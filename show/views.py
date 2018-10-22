@@ -12,7 +12,7 @@ from recombee_api_client.api_client import RecombeeClient
 from recombee_api_client.exceptions import APIException
 from recombee_api_client.api_requests import *
 
-client = RecombeeClient('tvseries', 'Xfp4Upkxyb4DpUC99e2wjU3REiOwcbibJnCYqFq97Pt8uAZhwi2aVD1SPzzgEofM')
+client = RecombeeClient('recommender', 'EgYpORAGzrbtQNKbZGA5wGOMm5V4jpQpJ1vMId4OsrO4GdEl5i3szO54mBKtcNYX')
 
 def homepage(request):
     return render(request, './show/index.html')
@@ -115,4 +115,6 @@ def watchlist(request):
 
 @login_required
 def dashboard(request):
-    return render(request, './show/dashboard.html')
+    recommend = client.send(RecommendItemsToUser(request.user, 10))
+    print(request.user)
+    return render(request, './show/dashboard.html', {'recommend': recommend})
