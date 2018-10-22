@@ -11,6 +11,10 @@ from .models import *
 from recombee_api_client.api_client import RecombeeClient
 from recombee_api_client.exceptions import APIException
 from recombee_api_client.api_requests import *
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView
 
 client = RecombeeClient('tvseries', 'Xfp4Upkxyb4DpUC99e2wjU3REiOwcbibJnCYqFq97Pt8uAZhwi2aVD1SPzzgEofM')
 
@@ -110,9 +114,45 @@ def profile(request,id):
 
 
 @login_required
-def watchlist(request):
-    return render(request, './show/watchlist.html')
+def watchlist(request,id):
+    id = int(id)
+    if id == request.user.id:
+        user = User.objects.get(id=id)
+        profile = UserProfile.objects.get(user=user)
+        watch_list = Watchlist.objects.filter(user=profile)
+        return render(request, './show/watchlist.html',{'watch_list':watch_list,'id':id})
+    else:
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        redirect_url = '/watchlist/' + str(user.id)
+        return HttpResponseRedirect(redirect_url)
+
+
 
 @login_required
 def dashboard(request):
     return render(request, './show/dashboard.html')
+
+
+class WatchlistDeleteView(DeleteView):
+    login_url = '/login/'
+    model = Watchlist
+    success_url = '/watchlist/'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        success_url = success_url + str(self.request.user.id)
+        print(self.object)
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+@login_required
+def WatchlistCompView(request,id):
+    user = request.user
+    obj = Watchlist.objects.get(id=id)
+    obj.status = "Completed"
+    obj.percent = 100
+    obj.save()
+    success_url = '/watchlist/' + str(request.user.id)
+    return HttpResponseRedirect(success_url)

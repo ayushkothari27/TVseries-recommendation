@@ -12,7 +12,8 @@ list_of_ratings = SeriesRating.objects.all()
 for i in range(0,len(list_of_ratings)):
     name = str(list_of_ratings[i].user)
     series = str(list_of_ratings[i].series)
-    rate = int(list_of_ratings[i].rating)
+    rate = list_of_ratings[i].rating
+    print(name + ' ' + series + ' ' + str(rate))
     request = AddRating(name, series, rate ,cascade_create=True)
     requests.append(request)
 
@@ -20,3 +21,9 @@ try:
 	client.send(Batch(requests))
 except APIException as e:
 	print(e)
+except ResponseException as e:
+    print(e)
+except ApiTimeoutException as e:
+    print(e)
+except Exception as e:
+    print(e)
