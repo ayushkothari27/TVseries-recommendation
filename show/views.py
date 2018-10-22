@@ -158,3 +158,10 @@ def dashboard(request):
     print(request.user)
     return render(request, './show/dashboard.html', {'recommend': recommend})
 
+@login_required
+def addRating(request):
+    tvseries = TVseries.objects.all()
+    print(tvseries)
+    return render(request, './show/addRating.html', {'tvseries': tvseries})
+
+

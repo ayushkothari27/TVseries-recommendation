@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^profile/(\d+)/$', views.profile, name='profile'),
     url(r'^watchlist/(\d+)/$', views.watchlist, name='watchlist'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^addRating/$', views.addRating, name='addRating'),
     url(r'^watchlist-delete/(?P<pk>[0-9]+)/$', WatchlistDeleteView.as_view(), name='watchlist_delete'),
     url(r'^watchlist-complete/(\d+)/$', views.WatchlistCompView, name='watchlist_comp')
 ]
