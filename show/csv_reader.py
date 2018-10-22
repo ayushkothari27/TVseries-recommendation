@@ -3,7 +3,7 @@ import random
 from .models import *
 
 
-with open("/home/aayush/Desktop/WD-project/csv/Netflix_Shows.csv", encoding='latin-1') as f:
+with open("C:\\Users\\DELL\\Desktop\\Bestpj\\WD-project\\csv\\Netflix_Shows.csv", encoding='latin-1') as f:
     reader = list(csv.reader(f, delimiter=','))[1:]
     for row in reader:
         name = row[0]

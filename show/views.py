@@ -16,7 +16,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 
-client = RecombeeClient('tvseries', 'Xfp4Upkxyb4DpUC99e2wjU3REiOwcbibJnCYqFq97Pt8uAZhwi2aVD1SPzzgEofM')
+client = RecombeeClient('recommender', 'EgYpORAGzrbtQNKbZGA5wGOMm5V4jpQpJ1vMId4OsrO4GdEl5i3szO54mBKtcNYX')
 
 def homepage(request):
     return render(request, './show/index.html')
@@ -127,13 +127,6 @@ def watchlist(request,id):
         redirect_url = '/watchlist/' + str(user.id)
         return HttpResponseRedirect(redirect_url)
 
-
-
-@login_required
-def dashboard(request):
-    return render(request, './show/dashboard.html')
-
-
 class WatchlistDeleteView(DeleteView):
     login_url = '/login/'
     model = Watchlist
@@ -146,7 +139,7 @@ class WatchlistDeleteView(DeleteView):
         print(self.object)
         self.object.delete()
         return HttpResponseRedirect(success_url)
-
+    
 @login_required
 def WatchlistCompView(request,id):
     user = request.user
@@ -156,3 +149,12 @@ def WatchlistCompView(request,id):
     obj.save()
     success_url = '/watchlist/' + str(request.user.id)
     return HttpResponseRedirect(success_url)
+
+@login_required
+def dashboard(request):
+    if request.method == 'POST':
+        print('okay')
+    recommend = client.send(RecommendItemsToUser(request.user, 10))
+    print(request.user)
+    return render(request, './show/dashboard.html', {'recommend': recommend})
+

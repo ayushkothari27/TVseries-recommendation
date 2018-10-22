@@ -9,6 +9,8 @@ client = RecombeeClient('tvseries', 'hw3cPcSNe1QHai4F3VFDcjDZh0GLWr4uMSxEOO60Ns6
 
 requests = []
 list_of_ratings = SeriesRating.objects.all()
+print(list_of_ratings)
+print(len(list_of_ratings))
 for i in range(0,len(list_of_ratings)):
     name = list_of_ratings[i].user.id
     series = list_of_ratings[i].series.id
@@ -18,6 +20,8 @@ for i in range(0,len(list_of_ratings)):
     request = AddRating(name, series, rate ,cascade_create=True)
     requests.append(request)
 
+print(len(requests))
+print(requests)
 try:
     print('sending')
     client.send(Batch(requests))
