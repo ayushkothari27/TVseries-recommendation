@@ -1,5 +1,5 @@
 # TVseries-recommendation
-This was a project for the course web technology in semester 5.
+This was a project for the course web technology in semester 6.
 
 ## Dataset
 We are using this dataset to get a list of TV series.
